@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"bmad-automate/internal/status"
+	"github.com/edouard-claude/bmad_automated/internal/status"
 )
 
 // mockStatusReader implements StatusReader for testing.

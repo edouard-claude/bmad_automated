@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"bmad-automate/internal/output"
+	"github.com/edouard-claude/bmad_automated/internal/output"
 )
 
 // Example_printer demonstrates the Printer interface methods for terminal output.

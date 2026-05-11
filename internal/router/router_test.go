@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"bmad-automate/internal/status"
+	"github.com/edouard-claude/bmad_automated/internal/status"
 )
 
 func TestGetWorkflow(t *testing.T) {

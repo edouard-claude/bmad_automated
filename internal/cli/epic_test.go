@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"bmad-automate/internal/config"
-	"bmad-automate/internal/status"
+	"github.com/edouard-claude/bmad_automated/internal/config"
+	"github.com/edouard-claude/bmad_automated/internal/status"
 )
 
 // TestEpicCommand_FullLifecycleExecution tests that epic command executes the full lifecycle for each story

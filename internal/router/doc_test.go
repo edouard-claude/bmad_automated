@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"bmad-automate/internal/router"
-	"bmad-automate/internal/status"
+	"github.com/edouard-claude/bmad_automated/internal/router"
+	"github.com/edouard-claude/bmad_automated/internal/status"
 )
 
 // This example demonstrates using GetWorkflow to map a story status

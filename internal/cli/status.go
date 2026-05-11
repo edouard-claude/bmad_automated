@@ -10,7 +10,7 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/spf13/cobra"
 
-	"bmad-automate/internal/status"
+	"github.com/edouard-claude/bmad_automated/internal/status"
 )
 
 // Styles for status display.

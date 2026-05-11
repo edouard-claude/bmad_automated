@@ -15,7 +15,7 @@ package router
 import (
 	"errors"
 
-	"bmad-automate/internal/status"
+	"github.com/edouard-claude/bmad_automated/internal/status"
 )
 
 // Sentinel errors for workflow routing.

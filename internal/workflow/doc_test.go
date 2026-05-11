@@ -5,10 +5,10 @@ import (
 	"context"
 	"fmt"
 
-	"bmad-automate/internal/claude"
-	"bmad-automate/internal/config"
-	"bmad-automate/internal/output"
-	"bmad-automate/internal/workflow"
+	"github.com/edouard-claude/bmad_automated/internal/claude"
+	"github.com/edouard-claude/bmad_automated/internal/config"
+	"github.com/edouard-claude/bmad_automated/internal/output"
+	"github.com/edouard-claude/bmad_automated/internal/workflow"
 )
 
 // Example_runner demonstrates using Runner to execute a single workflow

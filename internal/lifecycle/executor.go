@@ -14,8 +14,8 @@ import (
 	"context"
 	"fmt"
 
-	"bmad-automate/internal/router"
-	"bmad-automate/internal/status"
+	"github.com/edouard-claude/bmad_automated/internal/router"
+	"github.com/edouard-claude/bmad_automated/internal/status"
 )
 
 // WorkflowRunner is the interface for executing individual workflows.

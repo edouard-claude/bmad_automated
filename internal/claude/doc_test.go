@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"bmad-automate/internal/claude"
+	"github.com/edouard-claude/bmad_automated/internal/claude"
 )
 
 // Example_mockExecutor demonstrates using MockExecutor for testing Claude

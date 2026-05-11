@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"bmad-automate/internal/lifecycle"
-	"bmad-automate/internal/router"
+	"github.com/edouard-claude/bmad_automated/internal/lifecycle"
+	"github.com/edouard-claude/bmad_automated/internal/router"
 )
 
 func newEpicCommand(app *App) *cobra.Command {

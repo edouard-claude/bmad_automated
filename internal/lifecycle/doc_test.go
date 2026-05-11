@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"bmad-automate/internal/lifecycle"
-	"bmad-automate/internal/status"
+	"github.com/edouard-claude/bmad_automated/internal/lifecycle"
+	"github.com/edouard-claude/bmad_automated/internal/status"
 )
 
 // mockWorkflowRunner implements lifecycle.WorkflowRunner for examples.

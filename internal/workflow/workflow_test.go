@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"bmad-automate/internal/claude"
-	"bmad-automate/internal/config"
-	"bmad-automate/internal/output"
+	"github.com/edouard-claude/bmad_automated/internal/claude"
+	"github.com/edouard-claude/bmad_automated/internal/config"
+	"github.com/edouard-claude/bmad_automated/internal/output"
 )
 
 func setupTestRunner() (*Runner, *claude.MockExecutor, *bytes.Buffer) {

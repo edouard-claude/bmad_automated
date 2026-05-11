@@ -9,9 +9,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"bmad-automate/internal/lifecycle"
-	"bmad-automate/internal/router"
-	"bmad-automate/internal/status"
+	"github.com/edouard-claude/bmad_automated/internal/lifecycle"
+	"github.com/edouard-claude/bmad_automated/internal/router"
+	"github.com/edouard-claude/bmad_automated/internal/status"
 )
 
 func newQueueCommand(app *App) *cobra.Command {

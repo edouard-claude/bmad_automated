@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 
-	"bmad-automate/internal/claude"
-	"bmad-automate/internal/cli"
-	"bmad-automate/internal/config"
-	"bmad-automate/internal/output"
-	"bmad-automate/internal/status"
+	"github.com/edouard-claude/bmad_automated/internal/claude"
+	"github.com/edouard-claude/bmad_automated/internal/cli"
+	"github.com/edouard-claude/bmad_automated/internal/config"
+	"github.com/edouard-claude/bmad_automated/internal/output"
+	"github.com/edouard-claude/bmad_automated/internal/status"
 )
 
 // Example_app demonstrates creating an App with custom dependencies for testing.
