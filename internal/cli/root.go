@@ -59,6 +59,10 @@ type WorkflowRunner interface {
 // The production implementation is [status.Reader], which parses the YAML
 // file at _bmad-output/implementation-artifacts/sprint-status.yaml.
 type StatusReader interface {
+	// Read returns the complete sprint status containing all story statuses.
+	// Returns an error if the file cannot be read or parsed.
+	Read() (*status.SprintStatus, error)
+
 	// GetStoryStatus returns the current status of the given story key.
 	// Returns an error if the story key is not found or the file cannot be read.
 	GetStoryStatus(storyKey string) (status.Status, error)
@@ -178,6 +182,7 @@ story creation, development, code review, and git operations.`,
 		newQueueCommand(app),
 		newEpicCommand(app),
 		newRawCommand(app),
+		newStatusCommand(app),
 	)
 
 	return rootCmd

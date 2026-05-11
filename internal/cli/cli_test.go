@@ -72,6 +72,7 @@ func TestNewRootCommand_HasAllSubcommands(t *testing.T) {
 		"run",
 		"queue",
 		"raw",
+		"status",
 	}
 
 	commands := rootCmd.Commands()
@@ -163,7 +164,7 @@ func TestQueueCommand(t *testing.T) {
 	app := setupTestApp()
 	cmd := newQueueCommand(app)
 
-	assert.Equal(t, "queue <story-key> [story-key...]", cmd.Use)
+	assert.Equal(t, "queue <story-key|status> [story-key...]", cmd.Use)
 	assert.NotEmpty(t, cmd.Short)
 	assert.NotEmpty(t, cmd.Long)
 
