@@ -3,9 +3,11 @@ package claude
 import (
 	"bufio"
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"os/exec"
+	"sync"
 )
 
 // Executor runs Claude CLI and returns streaming events.
@@ -126,8 +128,10 @@ func NewExecutor(config ExecutorConfig) *DefaultExecutor {
 func (e *DefaultExecutor) Execute(ctx context.Context, prompt string) (<-chan Event, error) {
 	cmd := exec.CommandContext(ctx, e.config.BinaryPath,
 		"--dangerously-skip-permissions",
-		"-p", prompt,
 		"--output-format", e.config.OutputFormat,
+		"--verbose",
+		"-p",
+		prompt,
 	)
 
 	stdout, err := cmd.StdoutPipe()
@@ -144,8 +148,8 @@ func (e *DefaultExecutor) Execute(ctx context.Context, prompt string) (<-chan Ev
 		return nil, fmt.Errorf("failed to start claude: %w", err)
 	}
 
-	// Handle stderr in background
-	go e.handleStderr(stderr)
+	// Handle stderr in background (no synchronization for fire-and-forget mode)
+	go e.handleStderr(stderr, nil)
 
 	// Parse stdout and return events channel
 	events := e.parser.Parse(stdout)
@@ -174,8 +178,10 @@ func (e *DefaultExecutor) Execute(ctx context.Context, prompt string) (<-chan Ev
 func (e *DefaultExecutor) ExecuteWithResult(ctx context.Context, prompt string, handler EventHandler) (int, error) {
 	cmd := exec.CommandContext(ctx, e.config.BinaryPath,
 		"--dangerously-skip-permissions",
-		"-p", prompt,
 		"--output-format", e.config.OutputFormat,
+		"--verbose",
+		"-p",
+		prompt,
 	)
 
 	stdout, err := cmd.StdoutPipe()
@@ -192,23 +198,38 @@ func (e *DefaultExecutor) ExecuteWithResult(ctx context.Context, prompt string, 
 		return 1, fmt.Errorf("failed to start claude: %w", err)
 	}
 
-	// Handle stderr in background
-	go e.handleStderr(stderr)
+	// Handle stderr in background with synchronization
+	var stderrWg sync.WaitGroup
+	stderrWg.Add(1)
+	go e.handleStderr(stderr, &stderrWg)
 
-	// Process events
+	// Process events with context cancellation check
 	events := e.parser.Parse(stdout)
-	for event := range events {
-		if handler != nil {
-			handler(event)
+eventLoop:
+	for {
+		select {
+		case <-ctx.Done():
+			break eventLoop
+		case event, ok := <-events:
+			if !ok {
+				break eventLoop
+			}
+			if handler != nil {
+				handler(event)
+			}
 		}
 	}
+
+	// Wait for stderr to be fully read
+	stderrWg.Wait()
 
 	// Wait for command completion
 	err = cmd.Wait()
 
 	exitCode := 0
 	if err != nil {
-		if exitErr, ok := err.(*exec.ExitError); ok {
+		var exitErr *exec.ExitError
+		if errors.As(err, &exitErr) {
 			exitCode = exitErr.ExitCode()
 		} else {
 			return 1, err
@@ -218,7 +239,11 @@ func (e *DefaultExecutor) ExecuteWithResult(ctx context.Context, prompt string, 
 	return exitCode, nil
 }
 
-func (e *DefaultExecutor) handleStderr(stderr io.ReadCloser) {
+func (e *DefaultExecutor) handleStderr(stderr io.ReadCloser, wg *sync.WaitGroup) {
+	if wg != nil {
+		defer wg.Done()
+	}
+
 	if e.config.StderrHandler == nil {
 		_, _ = io.Copy(io.Discard, stderr) //nolint:errcheck // Intentionally discarding stderr
 		return
